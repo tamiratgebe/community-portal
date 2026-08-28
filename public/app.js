@@ -48,129 +48,178 @@ if (menuToggle && navLinks) {
 
 
 /* =====================================================
-   DASHBOARD COUNTERS
+   PUBLIC DASHBOARD COUNTERS
 ===================================================== */
 
-const counters =
-    document.querySelectorAll(
-        ".dashboard-number"
-    );
+async function loadPublicStats() {
 
+    try {
 
-function animateCounter(counter) {
+        const response =
+            await fetch("/api/public/stats");
 
-    const target =
-        Number(
-            counter.dataset.target
-        );
-
-    const prefix =
-        counter.dataset.prefix || "";
-
-    const duration =
-        1200;
-
-    const start =
-        performance.now();
-
-
-    function update(time) {
-
-        const elapsed =
-            time - start;
-
-        const progress =
-            Math.min(
-                elapsed / duration,
-                1
+        if (!response.ok) {
+            throw new Error(
+                "Failed to load public statistics"
             );
-
-
-        const eased =
-            1 -
-            Math.pow(
-                1 - progress,
-                3
-            );
-
-
-        const value =
-            Math.floor(
-                target * eased
-            );
-
-
-        counter.textContent =
-            prefix +
-            value.toLocaleString();
-
-
-        if (progress < 1) {
-
-            requestAnimationFrame(
-                update
-            );
-
-        } else {
-
-            counter.textContent =
-                prefix +
-                target.toLocaleString();
-
         }
 
-    }
+        const stats =
+            await response.json();
+
+        const counters =
+            document.querySelectorAll(
+                ".dashboard-number"
+            );
+
+        if (counters.length < 4) {
+            return;
+        }
+
+        /*
+         * Set real database values
+         */
+
+        counters[0].dataset.target =
+            stats.totalMembers;
+
+        counters[0].dataset.prefix = "";
+
+        counters[1].dataset.target =
+            Math.round(stats.totalContributions);
+
+        counters[1].dataset.prefix = "Br ";
+
+        counters[2].dataset.target =
+            stats.upcomingMeetings;
+
+        counters[2].dataset.prefix = "";
+
+        counters[3].dataset.target =
+            stats.announcementCount;
+
+        counters[3].dataset.prefix = "";
 
 
-    requestAnimationFrame(update);
+        /*
+         * Animate counters
+         */
 
-}
+        function animateCounter(counter) {
+
+            const target =
+                Number(counter.dataset.target);
+
+            const prefix =
+                counter.dataset.prefix || "";
+
+            const duration = 1200;
+
+            const start =
+                performance.now();
 
 
-if (counters.length) {
+            function update(time) {
 
-    const observer =
-        new IntersectionObserver(
-            entries => {
+                const elapsed =
+                    time - start;
 
-                if (
-                    entries.some(
-                        entry =>
-                            entry.isIntersecting
-                    )
-                ) {
-
-                    counters.forEach(
-                        animateCounter
+                const progress =
+                    Math.min(
+                        elapsed / duration,
+                        1
                     );
 
-                    observer.disconnect();
+                const eased =
+                    1 -
+                    Math.pow(
+                        1 - progress,
+                        3
+                    );
+
+                const value =
+                    Math.floor(
+                        target * eased
+                    );
+
+                counter.textContent =
+                    prefix +
+                    value.toLocaleString();
+
+
+                if (progress < 1) {
+
+                    requestAnimationFrame(
+                        update
+                    );
+
+                } else {
+
+                    counter.textContent =
+                        prefix +
+                        target.toLocaleString();
 
                 }
 
-            },
-            {
-                threshold: 0.25
             }
-        );
+
+            requestAnimationFrame(update);
+
+        }
 
 
-    const dashboard =
-        document.getElementById(
-            "dashboard"
-        );
+        /*
+         * Start animation when dashboard
+         * becomes visible
+         */
 
+        const dashboard =
+            document.getElementById(
+                "dashboard"
+            );
 
-    if (dashboard) {
+        if (dashboard) {
 
-        observer.observe(
-            dashboard
-        );
+            const observer =
+                new IntersectionObserver(
+                    entries => {
 
-    } else {
+                        if (
+                            entries.some(
+                                entry =>
+                                    entry.isIntersecting
+                            )
+                        ) {
 
-        counters.forEach(
-            animateCounter
+                            counters.forEach(
+                                animateCounter
+                            );
+
+                            observer.disconnect();
+
+                        }
+
+                    },
+                    {
+                        threshold: 0.25
+                    }
+                );
+
+            observer.observe(dashboard);
+
+        } else {
+
+            counters.forEach(
+                animateCounter
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Public dashboard error:",
+            error
         );
 
     }
@@ -178,6 +227,11 @@ if (counters.length) {
 }
 
 
+/*
+ * Load public statistics
+ */
+
+loadPublicStats();
 /* =====================================================
    MONTHLY CONTRIBUTIONS
 ===================================================== */
@@ -833,7 +887,7 @@ setTimeout(
         } else {
 
             window.location.href =
-                "index.html";
+                "index.html#memberDashboard";
 
         }
 
@@ -2707,3 +2761,5 @@ async function loadMonthlyPaymentStatus() {
     }
 
 }
+
+
