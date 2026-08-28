@@ -1,0 +1,1087 @@
+﻿/* =====================================================
+   COMMUNITY PORTAL
+   Main JavaScript
+===================================================== */
+
+
+/* =====================================================
+   MOBILE NAVIGATION
+===================================================== */
+
+const menuToggle =
+    document.getElementById("menuToggle");
+
+const navLinks =
+    document.getElementById("navLinks");
+
+
+if (menuToggle && navLinks) {
+
+    menuToggle.addEventListener(
+        "click",
+        () => {
+
+            navLinks.classList.toggle("open");
+
+        }
+    );
+
+
+    navLinks
+        .querySelectorAll("a")
+        .forEach(link => {
+
+            link.addEventListener(
+                "click",
+                () => {
+
+                    navLinks.classList.remove(
+                        "open"
+                    );
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =====================================================
+   DASHBOARD COUNTERS
+===================================================== */
+
+const counters =
+    document.querySelectorAll(
+        ".dashboard-number"
+    );
+
+
+function animateCounter(counter) {
+
+    const target =
+        Number(
+            counter.dataset.target
+        );
+
+    const prefix =
+        counter.dataset.prefix || "";
+
+    const duration =
+        1200;
+
+    const start =
+        performance.now();
+
+
+    function update(time) {
+
+        const elapsed =
+            time - start;
+
+        const progress =
+            Math.min(
+                elapsed / duration,
+                1
+            );
+
+
+        const eased =
+            1 -
+            Math.pow(
+                1 - progress,
+                3
+            );
+
+
+        const value =
+            Math.floor(
+                target * eased
+            );
+
+
+        counter.textContent =
+            prefix +
+            value.toLocaleString();
+
+
+        if (progress < 1) {
+
+            requestAnimationFrame(
+                update
+            );
+
+        } else {
+
+            counter.textContent =
+                prefix +
+                target.toLocaleString();
+
+        }
+
+    }
+
+
+    requestAnimationFrame(update);
+
+}
+
+
+if (counters.length) {
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                if (
+                    entries.some(
+                        entry =>
+                            entry.isIntersecting
+                    )
+                ) {
+
+                    counters.forEach(
+                        animateCounter
+                    );
+
+                    observer.disconnect();
+
+                }
+
+            },
+            {
+                threshold: 0.25
+            }
+        );
+
+
+    const dashboard =
+        document.getElementById(
+            "dashboard"
+        );
+
+
+    if (dashboard) {
+
+        observer.observe(
+            dashboard
+        );
+
+    } else {
+
+        counters.forEach(
+            animateCounter
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   MONTHLY CONTRIBUTIONS
+===================================================== */
+
+const monthsContainer =
+    document.getElementById(
+        "monthsContainer"
+    );
+
+
+const months = [
+
+    {
+        english: "Meskerem",
+        amharic: "áˆ˜áˆµáŠ¨áˆ¨áˆ"
+    },
+
+    {
+        english: "Tikimt",
+        amharic: "áŒ¥á‰…áˆá‰µ"
+    },
+
+    {
+        english: "Hidar",
+        amharic: "áˆ…á‹³áˆ­"
+    },
+
+    {
+        english: "Tahsas",
+        amharic: "á‰³áˆ…áˆ³áˆµ"
+    },
+
+    {
+        english: "Tir",
+        amharic: "áŒ¥áˆ­"
+    },
+
+    {
+        english: "Yekatit",
+        amharic: "á‹¨áŠ«á‰²á‰µ"
+    },
+
+    {
+        english: "Megabit",
+        amharic: "áˆ˜áŒ‹á‰¢á‰µ"
+    },
+
+    {
+        english: "Miyazya",
+        amharic: "áˆšá‹«á‹á‹«"
+    },
+
+    {
+        english: "Ginbot",
+        amharic: "áŒáŠ•á‰¦á‰µ"
+    },
+
+    {
+        english: "Sene",
+        amharic: "áˆ°áŠ”"
+    },
+
+    {
+        english: "Hamle",
+        amharic: "áˆáˆáˆŒ"
+    },
+
+    {
+        english: "Nehase",
+        amharic: "áŠáˆáˆ´"
+    }
+
+];
+
+
+function createMonthCard(
+    month,
+    index
+) {
+
+    const card =
+        document.createElement(
+            "button"
+        );
+
+
+    card.type = "button";
+
+    card.className =
+        "month-card";
+
+
+    card.innerHTML = `
+
+        <span class="month-number">
+            ${index + 1}
+        </span>
+
+        <strong>
+            ${month.english}
+        </strong>
+
+        <span>
+            ${month.amharic}
+        </span>
+
+        <small>
+            Monthly contribution:
+            <b>300 Birr</b>
+        </small>
+
+        <em>
+            View Payment Details â†’
+        </em>
+
+    `;
+
+
+    card.addEventListener(
+        "click",
+        () => {
+
+            const confirmed =
+                confirm(
+
+                    `Payment Information
+
+Month:
+${month.english}
+
+Monthly contribution:
+300 Birr
+
+Telebirr:
+0921782267
+
+After payment, please submit
+your receipt to the official
+community Telegram group.
+
+Open Telegram?`
+
+                );
+
+
+            if (confirmed) {
+
+                window.open(
+                    "https://t.me/+ynOLqAQXmv85ODM8",
+                    "_blank",
+                    "noopener"
+                );
+
+            }
+
+        }
+    );
+
+
+    return card;
+
+}
+
+
+if (monthsContainer) {
+
+    months.forEach(
+        (month, index) => {
+
+            monthsContainer.appendChild(
+                createMonthCard(
+                    month,
+                    index
+                )
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   MEMBER ABSENCE REQUEST
+===================================================== */
+
+const excuseForm =
+    document.getElementById("excuseForm");
+
+const meetingSelect =
+    document.getElementById("meeting");
+
+const meetingDate =
+    document.getElementById("meetingDate");
+
+const formMessage =
+    document.getElementById("formMessage");
+
+
+/* =====================================================
+   LOAD MEETINGS
+===================================================== */
+
+if (meetingSelect) {
+
+    async function loadMeetings() {
+
+        try {
+
+            const token =
+                localStorage.getItem("token");
+
+            if (!token) {
+
+                meetingSelect.innerHTML = `
+                    <option value="">
+                        Please login first
+                    </option>
+                `;
+
+                return;
+            }
+
+
+            const response =
+                await fetch(
+                    "/api/meetings",
+                    {
+                        headers: {
+                            Authorization:
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to load meetings"
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            /*
+             * Your backend currently returns
+             * one meeting object.
+             *
+             * This converts it into an array
+             * so the frontend can handle it.
+             */
+
+            const meetings =
+                Array.isArray(data)
+                    ? data
+                    : [data];
+
+
+            meetingSelect.innerHTML = `
+                <option value="">
+                    Select a meeting
+                </option>
+            `;
+
+
+            meetings.forEach(
+                meeting => {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value =
+                        meeting.id;
+
+                    option.textContent =
+                        `${meeting.title} â€” ${
+                            new Date(
+                                meeting.date
+                            ).toLocaleDateString()
+                        }`;
+
+                    option.dataset.date =
+                        meeting.date;
+
+                    meetingSelect.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Error loading meetings:",
+                error
+            );
+
+            meetingSelect.innerHTML = `
+                <option value="">
+                    Unable to load meetings
+                </option>
+            `;
+
+        }
+
+    }
+
+
+    loadMeetings();
+
+
+    /* =================================================
+       UPDATE MEETING DATE
+    ================================================= */
+
+    meetingSelect.addEventListener(
+        "change",
+        () => {
+
+            const selectedOption =
+                meetingSelect
+                    .selectedOptions[0];
+
+
+            if (
+                selectedOption &&
+                selectedOption.dataset.date
+            ) {
+
+                const date =
+                    new Date(
+                        selectedOption.dataset.date
+                    );
+
+
+                meetingDate.value =
+                    date.toISOString()
+                        .split("T")[0];
+
+            } else {
+
+                meetingDate.value = "";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SUBMIT ABSENCE REQUEST
+===================================================== */
+
+if (excuseForm) {
+
+    excuseForm.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            const token =
+                localStorage.getItem("token");
+
+
+            if (!token) {
+
+                formMessage.textContent =
+                    "Please login before submitting a request.";
+
+                formMessage.className =
+                    "form-message error";
+
+                return;
+
+            }
+
+
+            const meetingId =
+                Number(
+                    meetingSelect.value
+                );
+
+            const reason =
+                document
+                    .getElementById("reason")
+                    .value
+                    .trim();
+
+
+            if (!meetingId) {
+
+                formMessage.textContent =
+                    "Please select a meeting.";
+
+                formMessage.className =
+                    "form-message error";
+
+                return;
+
+            }
+
+
+            if (!reason) {
+
+                formMessage.textContent =
+                    "Please enter a reason.";
+
+                formMessage.className =
+                    "form-message error";
+
+                return;
+
+            }
+
+
+            formMessage.textContent =
+                "Submitting request...";
+
+            formMessage.className =
+                "form-message";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/member/absence-requests",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                Authorization:
+                                    `Bearer ${token}`
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    meetingId:
+                                        meetingId,
+
+                                    reason:
+                                        reason
+                                })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.error ||
+                        "Failed to submit request"
+                    );
+
+                }
+
+
+                formMessage.textContent =
+                    "Your absence request has been submitted successfully.";
+
+                formMessage.className =
+                    "form-message success";
+
+
+                excuseForm.reset();
+
+                meetingDate.value = "";
+
+
+                /*
+                 * Reload meetings so the
+                 * form stays synchronized.
+                 */
+
+                if (meetingSelect) {
+
+                    meetingSelect.dispatchEvent(
+                        new Event("change")
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Absence request error:",
+                    error
+                );
+
+                formMessage.textContent =
+                    error.message ||
+                    "Failed to submit request.";
+
+                formMessage.className =
+                    "form-message error";
+
+            }
+
+        }
+    );
+
+}
+/* =====================================================
+   MEMBER LOGIN
+===================================================== */
+
+const loginForm =
+    document.getElementById("loginForm");
+
+
+if (loginForm) {
+
+    loginForm.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+            const message =
+                document.getElementById(
+                    "loginMessage"
+                );
+
+            const phone =
+                document.getElementById(
+                    "phone"
+                ).value.trim();
+
+            const password =
+                document.getElementById(
+                    "password"
+                ).value;
+
+            message.textContent =
+                "Signing in...";
+
+            message.className =
+                "form-message";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/auth/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    phone:
+                                        phone,
+
+                                    password:
+                                        password
+                                })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.error ||
+                        "Login failed"
+                    );
+
+                }
+
+
+                /*
+                 * Save the JWT token.
+                 * Other member services use
+                 * this token to authenticate.
+                 */
+
+                localStorage.setItem(
+                    "token",
+                    data.token
+                );
+
+
+                /*
+                 * Save the logged-in user
+                 * when the backend provides it.
+                 */
+
+                if (data.user) {
+
+                    localStorage.setItem(
+                        "user",
+                        JSON.stringify(
+                            data.user
+                        )
+                    );
+
+                }
+
+
+                message.textContent =
+                    "Login successful!";
+
+                message.className =
+                    "form-message success";
+
+
+                /*
+                 * Give the user a moment
+                 * to see the success message.
+                 */
+
+                setTimeout(
+                    () => {
+
+                        window.location.href =
+                            "index.html";
+
+                    },
+                    700
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+                message.textContent =
+                    error.message ||
+                    "Unable to log in.";
+
+                message.className =
+                    "form-message error";
+
+            }
+
+        }
+    );
+
+}
+/* =====================================================
+   MEMBER DASHBOARD
+===================================================== */
+
+const memberDashboard =
+    document.getElementById("memberDashboard");
+
+
+if (memberDashboard) {
+
+    const token =
+        localStorage.getItem("token");
+
+
+    // Only show the member dashboard
+    // when the user is logged in.
+    if (token) {
+
+        loadMemberDashboard();
+
+    }
+
+
+    async function loadMemberDashboard() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/member/dashboard",
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Unable to load member dashboard"
+                );
+
+            }
+
+
+            /*
+             * Show dashboard
+             */
+
+            memberDashboard.style.display =
+                "block";
+
+
+            /*
+             * Member information
+             */
+
+            const memberName =
+                document.getElementById(
+                    "memberName"
+                );
+
+            const memberFullName =
+                document.getElementById(
+                    "memberFullName"
+                );
+
+            const memberPhone =
+                document.getElementById(
+                    "memberPhone"
+                );
+
+
+            if (memberName) {
+
+                memberName.textContent =
+                    data.member.fullName;
+
+            }
+
+
+            if (memberFullName) {
+
+                memberFullName.textContent =
+                    data.member.fullName;
+
+            }
+
+
+            if (memberPhone) {
+
+                memberPhone.textContent =
+                    data.member.phone;
+
+            }
+
+
+            /*
+             * Payment count
+             */
+
+            const memberPaymentCount =
+                document.getElementById(
+                    "memberPaymentCount"
+                );
+
+
+            if (memberPaymentCount) {
+
+                memberPaymentCount.textContent =
+                    data.payments.length;
+
+            }
+
+
+            /*
+             * Payment history
+             */
+
+            const memberPayments =
+                document.getElementById(
+                    "memberPayments"
+                );
+
+
+            if (!memberPayments) {
+                return;
+            }
+
+
+            if (!data.payments.length) {
+
+                memberPayments.innerHTML = `
+                    <p>
+                        No payment records found.
+                    </p>
+                `;
+
+                return;
+
+            }
+
+
+            memberPayments.innerHTML =
+                data.payments.map(
+                    payment => `
+
+                        <div class="payment-item">
+
+                            <div>
+                                <strong>
+                                    ${payment.type}
+                                </strong>
+
+                                <small>
+                                    ${payment.month}/${payment.year}
+                                </small>
+                            </div>
+
+                            <div>
+                                <strong>
+                                    ${Number(payment.amount).toLocaleString()}
+                                    Birr
+                                </strong>
+
+                                <small>
+                                    ${payment.status}
+                                </small>
+                            </div>
+
+                        </div>
+
+                    `
+                ).join("");
+
+
+        } catch (error) {
+
+            console.error(
+                "Member dashboard error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+     * LOGOUT
+     */
+
+    const memberLogout =
+        document.getElementById(
+            "memberLogout"
+        );
+
+
+    if (memberLogout) {
+
+        memberLogout.addEventListener(
+            "click",
+            () => {
+
+                localStorage.removeItem(
+                    "token"
+                );
+
+                localStorage.removeItem(
+                    "user"
+                );
+
+                window.location.href =
+                    "login.html";
+
+            }
+        );
+
+    }
+
+}
+/* =====================================================
+   MEMBER DASHBOARD
+===================================================== */
+

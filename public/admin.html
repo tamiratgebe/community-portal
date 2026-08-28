@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Community Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <a href="index.html" class="brand">
+            <span class="brand-icon">ET</span>
+
+            <span>
+                Community Portal
+                <small>Administrator Dashboard</small>
+            </span>
+        </a>
+
+        <ul class="nav-links">
+            <li>
+                <a href="index.html">Portal</a>
+            </li>
+
+            <li>
+                <a href="#" id="adminLogout">Logout</a>
+            </li>
+        </ul>
+
+    </nav>
+
+
+    <main class="page">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    ADMINISTRATION
+                </span>
+
+                <h1>
+                    Absence Requests
+                </h1>
+
+                <p>
+                    Review and manage member meeting absence requests.
+                </p>
+
+            </div>
+
+
+            <div id="adminMessage" class="form-message"></div>
+
+<!-- ANNOUNCEMENT MANAGEMENT -->
+
+<div class="form-card">
+
+    <div class="form-header">
+
+        <h2>
+            Create Announcement
+        </h2>
+
+        <p>
+            Publish an announcement for community members.
+        </p>
+
+    </div>
+
+
+    <form id="announcementForm">
+
+        <div class="form-group">
+
+            <label for="announcementTitle">
+                Title
+            </label>
+
+            <input
+                type="text"
+                id="announcementTitle"
+                name="title"
+                placeholder="Announcement title"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="announcementContent">
+                Announcement
+            </label>
+
+            <textarea
+                id="announcementContent"
+                name="content"
+                rows="6"
+                placeholder="Write your announcement..."
+                required></textarea>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="btn btn-primary">
+
+            Publish Announcement
+
+        </button>
+
+    </form>
+
+</div>
+<!-- MEETING MANAGEMENT -->
+
+<div class="form-card">
+
+    <div class="form-header">
+
+        <h2>
+            Create Meeting
+        </h2>
+
+        <p>
+            Schedule a new community meeting.
+        </p>
+
+    </div>
+
+
+    <form id="meetingForm">
+
+        <div class="form-group">
+
+            <label for="meetingTitle">
+                Meeting Title
+            </label>
+
+            <input
+                type="text"
+                id="meetingTitle"
+                name="title"
+                placeholder="Community Meeting"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="meetingDate">
+                Date and Time
+            </label>
+
+            <input
+                type="datetime-local"
+                id="meetingDate"
+                name="date"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="meetingLocation">
+                Location
+            </label>
+
+            <input
+                type="text"
+                id="meetingLocation"
+                name="location"
+                placeholder="Community Hall"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="meetingDescription">
+                Description
+            </label>
+
+            <textarea
+                id="meetingDescription"
+                name="description"
+                rows="5"
+                placeholder="Meeting details..."></textarea>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="btn btn-primary">
+
+            Create Meeting
+
+        </button>
+
+    </form>
+
+</div>
+
+            <div id="absenceRequests">
+
+                <p>
+                    Loading absence requests...
+                </p>
+
+            </div>
+
+        </div>
+
+<!-- ==================================================
+     PAYMENT MANAGEMENT
+================================================== -->
+
+<div class="form-card">
+
+    <div class="form-header">
+
+        <h2>
+            Payment Management
+        </h2>
+
+        <p>
+            Review and verify community payments.
+        </p>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+        <article class="dashboard-card">
+
+            <div class="dashboard-info">
+
+                <span>
+                    TOTAL PAYMENTS
+                </span>
+
+                <strong
+                    id="adminTotalPayments"
+                    class="dashboard-number">
+                    0
+                </strong>
+
+                <small>
+                    Recorded payments
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article class="dashboard-card">
+
+            <div class="dashboard-info">
+
+                <span>
+                    TOTAL COLLECTED
+                </span>
+
+                <strong
+                    id="adminTotalCollected"
+                    class="dashboard-number">
+                    0
+                </strong>
+
+                <small>
+                    Birr
+                </small>
+
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <div
+        id="adminPayments"
+        style="margin-top: 25px;">
+
+        <p>
+            Loading payments...
+        </p>
+
+    </div>
+
+</div>
+
+<!-- ==================================================
+     MONTHLY PAYMENT STATUS
+================================================== -->
+
+<div class="form-card">
+
+    <div class="form-header">
+
+        <h2>
+            Monthly Payment Status
+        </h2>
+
+        <p>
+            Check which members have paid their monthly fee.
+        </p>
+
+    </div>
+
+
+    <div
+        style="
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        ">
+
+        <div>
+            <label for="paymentStatusMonth">
+                Month
+            </label>
+
+            <select
+                id="paymentStatusMonth"
+                class="form-input">
+
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+
+            </select>
+
+        </div>
+
+
+        <div>
+
+            <label for="paymentStatusYear">
+                Year
+            </label>
+
+            <input
+                id="paymentStatusYear"
+                class="form-input"
+                type="number"
+                min="2000"
+                step="1">
+
+        </div>
+
+
+        <div
+            style="
+                display: flex;
+                align-items: flex-end;
+            ">
+
+            <button
+                class="btn btn-primary"
+                type="button"
+                onclick="loadMonthlyPaymentStatus()">
+
+                Check Payment Status
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="monthlyPaymentSummary"
+        class="dashboard-grid">
+
+        <article class="dashboard-card">
+
+            <div class="dashboard-info">
+
+                <span>
+                    TOTAL MEMBERS
+                </span>
+
+                <strong
+                    id="monthlyTotalMembers"
+                    class="dashboard-number">
+                    0
+                </strong>
+
+            </div>
+
+        </article>
+
+
+        <article class="dashboard-card">
+
+            <div class="dashboard-info">
+
+                <span>
+                    PAID
+                </span>
+
+                <strong
+                    id="monthlyPaidMembers"
+                    class="dashboard-number">
+                    0
+                </strong>
+
+            </div>
+
+        </article>
+
+
+        <article class="dashboard-card">
+
+            <div class="dashboard-info">
+
+                <span>
+                    UNPAID
+                </span>
+
+                <strong
+                    id="monthlyUnpaidMembers"
+                    class="dashboard-number">
+                    0
+                </strong>
+
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <div
+        id="monthlyUnpaidList"
+        style="margin-top: 25px;">
+
+        <p>
+            Select a month and year to check payment status.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
+
+
+

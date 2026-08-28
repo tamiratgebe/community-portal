@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Community Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                Community Portal
+            </a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle">
+
+                ☰
+
+            </button>
+
+            <ul
+                class="nav-links"
+                id="navLinks">
+
+                <li>
+                    <a href="index.html">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html#dashboard">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="plan.html">
+                        Contributions
+                    </a>
+                </li>
+
+                <li>
+                    <a href="excuse.html">
+                        Services
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="login.html"
+                        class="active">
+
+                        Login
+
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= LOGIN ================= -->
+
+    <main class="page">
+
+        <div class="container narrow">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    MEMBER ACCESS
+                </span>
+
+                <h1>
+                    Community Portal Login
+                </h1>
+
+                <p>
+                    Sign in to access your member services.
+                </p>
+
+            </div>
+
+
+            <!-- LOGIN FORM -->
+
+            <form
+                class="form-card"
+                id="loginForm">
+
+                <div class="form-header">
+
+                    <h2>
+                        Sign In
+                    </h2>
+
+                    <p>
+                        Enter your registered phone number
+                        and password.
+                    </p>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter your phone number"
+                        autocomplete="tel"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary submit-btn">
+
+                    Login
+
+                </button>
+
+
+                <p
+                    id="loginMessage"
+                    class="form-message">
+                </p>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

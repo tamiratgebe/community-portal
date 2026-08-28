@@ -1,0 +1,851 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Community Management Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav class="navbar">
+
+        <a href="index.html" class="brand">
+            <span class="brand-icon">ðŸ‡ªðŸ‡¹</span>
+
+            <span>
+                Community Portal
+                <small>á‹¨áˆ›áˆ…á‰ áˆ¨áˆ°á‰¥ á–áˆ­á‰³áˆ</small>
+            </span>
+        </a>
+
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open navigation menu">
+
+            â˜°
+
+        </button>
+
+
+        <ul class="nav-links" id="navLinks">
+
+            <li>
+                <a href="index.html" class="active">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="#dashboard">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="#meeting">
+                    Meetings
+                </a>
+            </li>
+
+            <li>
+                <a href="plan.html">
+                    Contributions
+                </a>
+            </li>
+
+            <li>
+                <a href="#services">
+                    Services
+                </a>
+            </li>
+
+            <li id="memberNavItem" style="display: none;">
+                <a href="#memberDashboard">
+                    My Member Area
+                </a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <header class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                COMMUNITY MANAGEMENT SYSTEM
+            </span>
+
+
+            <h1>
+                Welcome to the
+                <span>Community Portal</span>
+            </h1>
+
+
+            <p class="hero-amharic">
+                á‹¨áˆ›áˆ…á‰ áˆ¨áˆ°á‰¥ áŠ áˆµá‰°á‹³á‹°áˆ­ á–áˆ­á‰³áˆ
+            </p>
+
+
+            <p class="hero-description">
+
+                A centralized platform for accessing community
+                announcements, meeting information, monthly
+                contributions, and member services.
+
+            </p>
+
+
+            <div class="hero-actions">
+
+                <a
+                    href="#dashboard"
+                    class="btn btn-primary">
+
+                    View Dashboard
+
+                </a>
+
+
+                <a
+                    href="plan.html"
+                    class="btn btn-outline">
+
+                    Manage Contributions
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <section
+        class="dashboard-section"
+        id="dashboard">
+
+        <div class="container">
+
+            <div class="section-heading light">
+
+                <span class="section-label">
+                    COMMUNITY OVERVIEW
+                </span>
+
+                <h2>
+                    Stay Informed
+                </h2>
+
+                <p>
+
+                    Access the latest information about
+                    community activities, meetings, and
+                    contributions.
+
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+
+                <!-- MEMBERS -->
+
+                <article class="dashboard-card">
+
+                    <div class="dashboard-icon">
+                        ðŸ‘¥
+                    </div>
+
+                    <div class="dashboard-info">
+
+                        <span>
+                            TOTAL MEMBERS
+                        </span>
+
+                        <strong
+                            class="dashboard-number"
+                            data-target="20">
+
+                            0
+
+                        </strong>
+
+                        <small>
+                            Registered community members
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CONTRIBUTIONS -->
+
+                <article class="dashboard-card">
+
+                    <div class="dashboard-icon">
+                        ðŸ’°
+                    </div>
+
+                    <div class="dashboard-info">
+
+                        <span>
+                            CONTRIBUTIONS
+                        </span>
+
+                        <strong
+                            class="dashboard-number"
+                            data-target="600"
+                            data-prefix="Br ">
+
+                            Br 0
+
+                        </strong>
+
+                        <small>
+                            Contributions recorded
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+                <!-- MEETINGS -->
+
+                <article class="dashboard-card">
+
+                    <div class="dashboard-icon">
+                        ðŸ“…
+                    </div>
+
+                    <div class="dashboard-info">
+
+                        <span>
+                            UPCOMING MEETINGS
+                        </span>
+
+                        <strong
+                            class="dashboard-number"
+                            data-target="12">
+
+                            0
+
+                        </strong>
+
+                        <small>
+                            Scheduled community meetings
+                        </small>
+
+                    </div>
+
+                </article>
+
+
+                <!-- REQUESTS -->
+
+                <article class="dashboard-card">
+
+                    <div class="dashboard-icon">
+                        ðŸ“
+                    </div>
+
+                    <div class="dashboard-info">
+
+                        <span>
+                            PENDING REQUESTS
+                        </span>
+
+                        <strong
+                            class="dashboard-number"
+                            data-target="0">
+
+                            0
+
+                        </strong>
+
+                        <small>
+                            Requests awaiting review
+                        </small>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= MEETING ================= -->
+
+    <section
+        class="section"
+        id="meeting">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    UPCOMING EVENT
+                </span>
+
+                <h2>
+                    Upcoming Community Meeting
+                </h2>
+
+                <p>
+                    á‹¨áˆ˜áŒªá‹ áˆ›áˆ…á‰ áˆ¨áˆ°á‰¥ áˆµá‰¥áˆ°á‰£
+                </p>
+
+            </div>
+
+
+            <div class="meeting-card">
+
+
+                <div class="meeting-header">
+
+                    <div>
+
+                        <span class="meeting-status">
+                            UPCOMING
+                        </span>
+
+                        <h3>
+                            Monthly Community Meeting
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="meeting-details">
+
+
+                    <div class="meeting-detail">
+
+                        <span class="detail-icon">
+                            ðŸ“…
+                        </span>
+
+                        <div>
+
+                            <small>
+                                DATE
+                            </small>
+
+                            <strong>
+                                Sunday, August 23, 2026
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="meeting-detail">
+
+                        <span class="detail-icon">
+                            â°
+                        </span>
+
+                        <div>
+
+                            <small>
+                                TIME
+                            </small>
+
+                            <strong>
+                                2:00 PM
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="meeting-detail">
+
+                        <span class="detail-icon">
+                            ðŸ“
+                        </span>
+
+                        <div>
+
+                            <small>
+                                LOCATION
+                            </small>
+
+                            <strong>
+                                Community Meeting Hall
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="meeting-agenda">
+
+                    <span>
+                        MEETING AGENDA
+                    </span>
+
+                    <p>
+
+                        Monthly contribution review,
+                        community updates, and upcoming
+                        activities.
+
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="#"
+                    class="meeting-link">
+
+                    View Meeting Details â†’
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SERVICES ================= -->
+
+    <section
+        class="services-section"
+        id="services">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    MEMBER SERVICES
+                </span>
+
+                <h2>
+                    Everything You Need
+                </h2>
+
+                <p>
+
+                    Convenient access to essential
+                    community services.
+
+                </p>
+
+            </div>
+
+
+            <div class="services-grid">
+
+
+                <!-- CONTRIBUTIONS -->
+
+                <a
+                    href="plan.html"
+                    class="service-card">
+
+                    <div class="service-icon">
+                        ðŸ’°
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Monthly Contributions
+                        </h3>
+
+                        <p>
+
+                            Review your monthly contribution
+                            schedule and payment instructions.
+
+                        </p>
+
+                        <span>
+                            View Contributions â†’
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- MEETING EXCUSE -->
+
+                <a
+                    href="excuse.html"
+                    class="service-card">
+
+                    <div class="service-icon">
+                        ðŸ“
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Meeting Absence Request
+                        </h3>
+
+                        <p>
+
+                            Submit a request if you are
+                            unable to attend an upcoming meeting.
+
+                        </p>
+
+                        <span>
+                            Submit Request â†’
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- MEETING -->
+
+                <a
+                    href="#meeting"
+                    class="service-card">
+
+                    <div class="service-icon">
+                        ðŸ“…
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Meeting Information
+                        </h3>
+
+                        <p>
+
+                            Check upcoming meetings,
+                            schedules, locations, and agendas.
+
+                        </p>
+
+                        <span>
+                            View Meetings â†’
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- ANNOUNCEMENTS -->
+
+                <a
+                    href="#"
+                    class="service-card">
+
+                    <div class="service-icon">
+                        ðŸ“¢
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Announcements
+                        </h3>
+
+                        <p>
+
+                            Stay updated with important
+                            community announcements.
+
+                        </p>
+
+                        <span>
+                            View Announcements â†’
+                        </span>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+<!-- ================= MEMBER AREA ================= -->
+
+<section
+    class="section member-area"
+    id="memberDashboard"
+    style="display: none;">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                MEMBER AREA
+            </span>
+
+            <h2>
+                Welcome,
+                <span id="memberName">
+                    Member
+                </span>
+            </h2>
+
+            <p>
+                Your community account and payment information.
+            </p>
+
+        </div>
+
+
+        <!-- MEMBER INFORMATION -->
+
+        <div class="dashboard-grid">
+
+            <article class="dashboard-card">
+
+                <div class="dashboard-info">
+
+                    <span>
+                        FULL NAME
+                    </span>
+
+                    <strong id="memberFullName">
+                        â€”
+                    </strong>
+
+                </div>
+
+            </article>
+
+
+            <article class="dashboard-card">
+
+                <div class="dashboard-info">
+
+                    <span>
+                        PHONE
+                    </span>
+
+                    <strong id="memberPhone">
+                        â€”
+                    </strong>
+
+                </div>
+
+            </article>
+
+
+            <article class="dashboard-card">
+
+                <div class="dashboard-info">
+
+                    <span>
+                        PAYMENTS
+                    </span>
+
+                    <strong
+                        id="memberPaymentCount"
+                        class="dashboard-number">
+
+                        0
+
+                    </strong>
+
+                    <small>
+                        Recorded payments
+                    </small>
+
+                </div>
+
+            </article>
+
+        </div>
+
+
+        <!-- PAYMENT HISTORY -->
+
+        <div class="form-card">
+
+            <div class="form-header">
+
+                <h2>
+                    Payment History
+                </h2>
+
+                <p>
+                    Your recorded community contributions.
+                </p>
+
+            </div>
+
+
+            <div id="memberPayments">
+
+                <p>
+                    Loading payment history...
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MEMBER ACTIONS -->
+
+        <div class="hero-actions">
+
+            <a
+                href="excuse.html"
+                class="btn btn-primary">
+
+                Submit Meeting Absence
+
+            </a>
+
+
+            <button
+                type="button"
+                id="memberLogout"
+                class="btn btn-outline">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+    <!-- ================= INFORMATION ================= -->
+
+    <section class="information-section">
+
+        <div class="container">
+
+            <div class="information-box">
+
+                <div>
+
+                    <span class="section-label">
+                        COMMUNITY INFORMATION
+                    </span>
+
+                    <h2>
+                        Stay Connected
+                    </h2>
+
+                    <p>
+
+                        This portal helps members stay
+                        informed, submit requests, and
+                        manage community contributions
+                        from one convenient place.
+
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="plan.html"
+                    class="btn btn-primary">
+
+                    View Contributions
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="container">
+
+            <div class="footer-content">
+
+                <div>
+
+                    <h3>
+                        ðŸ‡ªðŸ‡¹ Community Portal
+                    </h3>
+
+                    <p>
+                        á‹¨áˆ›áˆ…á‰ áˆ¨áˆ°á‰¥ áŠ áˆµá‰°á‹³á‹°áˆ­ á–áˆ­á‰³áˆ
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <p>
+                        Community Management System
+                    </p>
+
+                    <p class="copyright">
+                        Â© 2026 Community Portal.
+                        All rights reserved.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
