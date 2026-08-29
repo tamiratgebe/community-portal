@@ -121,6 +121,75 @@ app.get("/", (req, res) => {
 });
 
 // ==================================================
+// PUBLIC COMMUNITY STATISTICS
+// ==================================================
+
+app.get(
+    "/api/public/stats",
+    async (req, res) => {
+
+        try {
+
+            const totalMembers =
+                await prisma.user.count({
+                    where: {
+                        role: "MEMBER"
+                    }
+                });
+
+            const verifiedPayments =
+                await prisma.payment.findMany({
+                    where: {
+                        status: "VERIFIED"
+                    },
+                    select: {
+                        amount: true
+                    }
+                });
+
+            const totalContributions =
+                verifiedPayments.reduce(
+                    (total, payment) =>
+                        total + Number(payment.amount),
+                    0
+                );
+
+            const now = new Date();
+
+            const upcomingMeetings =
+                await prisma.meeting.count({
+                    where: {
+                        date: {
+                            gte: now
+                        }
+                    }
+                });
+
+            const announcementCount =
+                await prisma.announcement.count();
+
+            res.json({
+                totalMembers,
+                totalContributions,
+                upcomingMeetings,
+                announcementCount
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Error loading public statistics:",
+                error
+            );
+
+            res.status(500).json({
+                error:
+                    "Failed to load community statistics"
+            });
+        }
+    }
+);
+// ==================================================
 // AUTH LOGIN
 // ==================================================
 
@@ -202,6 +271,91 @@ app.post(
 
             res.status(500).json({
                 error: "Login failed"
+            });
+        }
+    }
+);
+// ==================================================
+// MEMBER REGISTRATION
+// ==================================================
+
+app.post(
+    "/api/auth/register",
+    async (req, res) => {
+
+        try {
+
+            const {
+                fullName,
+                phone,
+                password
+            } = req.body;
+
+            if (!fullName || !phone || !password) {
+                return res.status(400).json({
+                    error:
+                        "Full name, phone and password are required"
+                });
+            }
+
+            if (password.length < 6) {
+                return res.status(400).json({
+                    error:
+                        "Password must be at least 6 characters"
+                });
+            }
+
+            const existingUser =
+                await prisma.user.findUnique({
+                    where: {
+                        phone: phone
+                    }
+                });
+
+            if (existingUser) {
+                return res.status(409).json({
+                    error:
+                        "A member with this phone number already exists"
+                });
+            }
+
+            const passwordHash =
+                await bcrypt.hash(
+                    password,
+                    10
+                );
+
+            const user =
+                await prisma.user.create({
+                    data: {
+                        fullName: fullName,
+                        phone: phone,
+                        passwordHash: passwordHash,
+                        role: "MEMBER"
+                    }
+                });
+
+            res.status(201).json({
+                message:
+                    "Registration successful",
+                user: {
+                    id: user.id,
+                    fullName: user.fullName,
+                    phone: user.phone,
+                    role: user.role
+                }
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Registration error:",
+                error
+            );
+
+            res.status(500).json({
+                error:
+                    "Registration failed"
             });
         }
     }
