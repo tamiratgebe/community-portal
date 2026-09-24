@@ -1,14 +1,19 @@
-require("dotenv").config();
+const path = require("path");
+
+require("dotenv").config({
+    path: path.join(__dirname, ".env")
+});
 
 const { PrismaClient } = require("@prisma/client");
-const {
-    PrismaBetterSqlite3
-} = require("@prisma/adapter-better-sqlite3");
+const { PrismaPg } = require("@prisma/adapter-pg");
 const bcrypt = require("bcrypt");
 
-// Connect to SQLite
-const adapter = new PrismaBetterSqlite3({
-    url: "./dev.db"
+if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is required.");
+}
+
+const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL
 });
 
 const prisma = new PrismaClient({
@@ -22,9 +27,13 @@ async function main() {
     // CHANGE THESE VALUES
     // ==========================================
 
-    const fullName = "TamiratG.Bekele";
-    const phone = "0970255380";
-    const password = "community21!";
+    const fullName = process.env.ADMIN_NAME;
+    const phone = process.env.ADMIN_PHONE;
+    const password = process.env.ADMIN_PASSWORD;
+
+    if (!fullName || !phone || !password) {
+        throw new Error("Set ADMIN_NAME, ADMIN_PHONE, and ADMIN_PASSWORD in .env before creating an admin.");
+    }
 
 
     // ==========================================

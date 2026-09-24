@@ -22,7 +22,6 @@ CREATE TABLE "User" (
     "role" "UserRole" NOT NULL DEFAULT 'MEMBER',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
@@ -40,7 +39,6 @@ CREATE TABLE "Payment" (
     "verifiedById" INTEGER,
     "paidAt" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
 );
 
@@ -53,7 +51,6 @@ CREATE TABLE "Meeting" (
     "description" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-
     CONSTRAINT "Meeting_pkey" PRIMARY KEY ("id")
 );
 
@@ -64,7 +61,6 @@ CREATE TABLE "Announcement" (
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-
     CONSTRAINT "Announcement_pkey" PRIMARY KEY ("id")
 );
 
@@ -77,7 +73,6 @@ CREATE TABLE "AbsenceRequest" (
     "meetingId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-
     CONSTRAINT "AbsenceRequest_pkey" PRIMARY KEY ("id")
 );
 

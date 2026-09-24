@@ -1,23 +1,43 @@
-require("dotenv").config();
-
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const path = require("path");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+
+require("dotenv").config({
+    path: path.join(__dirname, ".env")
+});
 
 const { PrismaClient } = require("@prisma/client");
-const {
-    PrismaBetterSqlite3
-} = require("@prisma/adapter-better-sqlite3");
+const { PrismaPg } = require("@prisma/adapter-pg");
 
 const app = express();
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 const PORT = process.env.PORT || 3000;
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+app.use(express.json({ limit: "100kb" }));
+
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 10,
+    standardHeaders: "draft-7",
+    legacyHeaders: false,
+    message: { error: "Too many authentication attempts. Please try again later." }
+});
 // ==================================================
 // PRISMA DATABASE CONNECTION
 // ==================================================
 
-const adapter = new PrismaBetterSqlite3({
-    url: "./dev.db"
+if (!process.env.DATABASE_URL) {
+    console.error("ERROR: DATABASE_URL is missing");
+    process.exit(1);
+}
+
+const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL
 });
 
 const prisma = new PrismaClient({
@@ -28,8 +48,6 @@ const prisma = new PrismaClient({
 // MIDDLEWARE
 // ==================================================
 
-app.use(express.json());
-
 // ==================================================
 // JWT CONFIGURATION
 // ==================================================
@@ -38,6 +56,11 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!JWT_SECRET) {
     console.error("ERROR: JWT_SECRET is missing from .env");
+    process.exit(1);
+}
+
+if (JWT_SECRET.length < 32) {
+    console.error("ERROR: JWT_SECRET must be at least 32 characters long");
     process.exit(1);
 }
 
@@ -195,14 +218,13 @@ app.get(
 
 app.post(
     "/api/auth/login",
+    authLimiter,
     async (req, res) => {
 
         try {
 
-            const {
-                phone,
-                password
-            } = req.body;
+            const phone = String(req.body.phone || "").trim();
+            const password = String(req.body.password || "");
 
             if (!phone || !password) {
                 return res.status(400).json({
@@ -281,20 +303,31 @@ app.post(
 
 app.post(
     "/api/auth/register",
+    authLimiter,
     async (req, res) => {
 
         try {
 
-            const {
-                fullName,
-                phone,
-                password
-            } = req.body;
+            const fullName = String(req.body.fullName || "").trim();
+            const phone = String(req.body.phone || "").trim();
+            const password = String(req.body.password || "");
 
             if (!fullName || !phone || !password) {
                 return res.status(400).json({
                     error:
                         "Full name, phone and password are required"
+                });
+            }
+
+            if (fullName.length < 2 || fullName.length > 100) {
+                return res.status(400).json({
+                    error: "Full name must be between 2 and 100 characters"
+                });
+            }
+
+            if (!/^[0-9+\s()-]{7,20}$/.test(phone)) {
+                return res.status(400).json({
+                    error: "Please enter a valid phone number"
                 });
             }
 
@@ -1675,7 +1708,6 @@ app.get(
 // MEMBER - GET ANNOUNCEMENTS
 app.get(
     "/api/announcements",
-    authenticateToken,
     async (req, res) => {
 
         try {
@@ -1902,7 +1934,6 @@ app.post(
 
 app.get(
     "/api/meetings",
-    authenticateToken,
     async (req, res) => {
 
         try {

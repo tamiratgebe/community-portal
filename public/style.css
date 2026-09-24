@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
 /* =====================================================
    COMMUNITY PORTAL
    Professional Design System
@@ -61,10 +63,7 @@ body {
 
     margin: 0;
 
-    font-family:
-        Arial,
-        "Noto Sans",
-        sans-serif;
+    font-family: "DM Sans", sans-serif;
 
     color: var(--text);
 
@@ -275,12 +274,12 @@ textarea {
     color:
         white;
 
-    background:
-        linear-gradient(
-            135deg,
-            #0c2b20,
-            #1a6044
-        );
+    background-image:
+        linear-gradient(90deg, rgba(6, 35, 25, 0.9), rgba(13, 76, 52, 0.58)),
+        url("https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=2200&q=85");
+    background-position: center;
+    background-size: cover;
+    animation: hero-photo-drift 18s ease-in-out infinite alternate;
 
 }
 
@@ -315,6 +314,13 @@ textarea {
 
     max-width: 850px;
 
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(4, 28, 20, 0.18), rgba(4, 28, 20, 0.62));
 }
 
 
@@ -752,8 +758,15 @@ p:not(.section-label) {
 
     padding: 32px;
 
-    background:
-        white;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    background-image:
+        linear-gradient(90deg, rgba(7, 43, 30, 0.94), rgba(10, 61, 43, 0.72)),
+        url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1800&q=85");
+    background-position: center;
+    background-size: cover;
+    animation: meeting-photo-drift 20s ease-in-out infinite alternate;
 
     border:
         1px solid
@@ -774,6 +787,9 @@ p:not(.section-label) {
     justify-content: space-between;
 
     margin-bottom: 30px;
+
+    position: relative;
+    z-index: 1;
 
 }
 
@@ -806,7 +822,7 @@ p:not(.section-label) {
         10px 0 0;
 
     color:
-        var(--green-dark);
+        white;
 
     font-size: 1.4rem;
 
@@ -864,7 +880,7 @@ p:not(.section-label) {
     display: block;
 
     color:
-        var(--green-dark);
+        white;
 
     font-size: 0.9rem;
 
@@ -903,7 +919,7 @@ p:not(.section-label) {
     margin-bottom: 0;
 
     color:
-        var(--muted);
+        #d9e8e1;
 
 }
 
@@ -921,6 +937,19 @@ p:not(.section-label) {
 
     font-size: 0.9rem;
 
+    position: relative;
+    z-index: 1;
+
+}
+
+@keyframes hero-photo-drift {
+    from { background-position: 48% center; }
+    to { background-position: 55% center; }
+}
+
+@keyframes meeting-photo-drift {
+    from { background-position: 45% center; }
+    to { background-position: 55% center; }
 }
 
 
@@ -1520,7 +1549,9 @@ p:not(.section-label) {
 
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select,
+.form-input {
 
     width: 100%;
 
@@ -1549,7 +1580,9 @@ p:not(.section-label) {
 
 
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus,
+.form-input:focus {
 
     border-color:
         var(--green-light);
@@ -1667,6 +1700,14 @@ footer p {
     font-size:
         0.75rem;
 
+}
+
+.signature {
+    margin-top: 8px !important;
+    color: var(--gold) !important;
+    font-family: "Manrope", "DM Sans", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
 }
 
 
@@ -1800,6 +1841,16 @@ footer p {
 
     }
 
+    .meeting-list-card {
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        padding: 20px;
+    }
+
+    .meeting-list-action {
+        grid-column: 2;
+    }
+
 
     .services-grid {
 
@@ -1878,4 +1929,159 @@ footer p {
 
     }
 
+}
+
+/* =====================================================
+   AUTHENTICATION AND PORTAL POLISH
+===================================================== */
+
+h1, h2, h3, .brand, .btn {
+    font-family: "Manrope", "DM Sans", sans-serif;
+}
+
+body {
+    background-image: radial-gradient(rgba(26, 82, 61, 0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+.hero {
+    overflow: hidden;
+}
+
+.hero-content {
+    animation: portal-rise 0.7s ease both;
+}
+
+.btn {
+    min-height: 50px;
+    border-radius: 10px;
+    letter-spacing: 0.01em;
+}
+
+.dashboard-card,
+.service-card,
+.meeting-card,
+.form-card,
+.payment-info,
+.month-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.form-card {
+    background: rgba(255, 255, 255, 0.96);
+}
+
+.auth-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 32px 20px;
+    background: linear-gradient(135deg, #092a20, #1c6546);
+}
+
+.auth-card {
+    width: min(100%, 480px);
+    padding: 42px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+}
+
+.auth-card h1 {
+    margin: 0 0 8px;
+    color: var(--green-dark);
+    font-size: 2rem;
+}
+
+.auth-card > p {
+    margin: 0 0 28px;
+    color: var(--muted);
+}
+
+.auth-link {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.auth-link a {
+    color: var(--green-light);
+    font-weight: 800;
+}
+
+.form-message.error {
+    color: #b42318;
+}
+
+@keyframes portal-rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 520px) {
+    .auth-card { padding: 28px 22px; }
+    .hero h1 { font-size: 2.6rem; }
+}
+
+.meeting-list-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 16px;
+    padding: 24px 26px;
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--gold);
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffffff, #f5faf7);
+    box-shadow: 0 10px 26px rgba(17, 56, 43, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.meeting-list-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 34px rgba(17, 56, 43, 0.14);
+}
+
+.meeting-list-index {
+    color: var(--gold-dark);
+    font-family: "Manrope", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.meeting-list-content h3 {
+    margin: 8px 0 6px;
+    color: var(--green-dark);
+    font-size: 1.15rem;
+}
+
+.meeting-list-content p {
+    max-width: 680px;
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.meeting-list-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    color: var(--green);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.meeting-list-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    color: var(--green-light);
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.meeting-list-action span {
+    font-size: 1.15rem;
 }

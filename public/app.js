@@ -422,7 +422,7 @@ const excuseForm =
     document.getElementById("excuseForm");
 
 const meetingSelect =
-    document.getElementById("meeting");
+    document.getElementById("meetingSelect");
 
 const meetingDate =
     document.getElementById("meetingDate");
@@ -430,165 +430,48 @@ const meetingDate =
 const formMessage =
     document.getElementById("formMessage");
 
-
-/* =====================================================
-   LOAD MEETINGS
-===================================================== */
-
 if (meetingSelect) {
 
     async function loadMeetings() {
 
         try {
-
-            const token =
-                localStorage.getItem("token");
-
-            if (!token) {
-
-                meetingSelect.innerHTML = `
-                    <option value="">
-                        Please login first
-                    </option>
-                `;
-
-                return;
-            }
-
-
             const response =
-                await fetch(
-                    "/api/meetings",
-                    {
-                        headers: {
-                            Authorization:
-                                `Bearer ${token}`
-                        }
-                    }
-                );
-
+                await fetch("/api/meetings");
 
             if (!response.ok) {
-
-                throw new Error(
-                    "Failed to load meetings"
-                );
-
+                throw new Error("Failed to load meetings");
             }
 
-
-            const data =
-                await response.json();
-
-
-            /*
-             * Your backend currently returns
-             * one meeting object.
-             *
-             * This converts it into an array
-             * so the frontend can handle it.
-             */
-
-            const meetings =
-                Array.isArray(data)
-                    ? data
-                    : [data];
-
+            const data = await response.json();
+            const meetings = Array.isArray(data) ? data : [data];
 
             meetingSelect.innerHTML = `
-                <option value="">
-                    Select a meeting
-                </option>
+                <option value="">Select a meeting</option>
             `;
 
-
-            meetings.forEach(
-                meeting => {
-
-                    const option =
-                        document.createElement(
-                            "option"
-                        );
-
-                    option.value =
-                        meeting.id;
-
-                    option.textContent =
-                        `${meeting.title} - ${
-                            new Date(
-                                meeting.date
-                            ).toLocaleDateString()
-                        }`;
-
-                    option.dataset.date =
-                        meeting.date;
-
-                    meetingSelect.appendChild(
-                        option
-                    );
-
-                }
-            );
-
-
+            meetings.forEach(meeting => {
+                const option = document.createElement("option");
+                option.value = meeting.id;
+                option.textContent = `${meeting.title} - ${new Date(meeting.date).toLocaleDateString()}`;
+                option.dataset.date = meeting.date;
+                meetingSelect.appendChild(option);
+            });
         } catch (error) {
-
-            console.error(
-                "Error loading meetings:",
-                error
-            );
-
+            console.error("Error loading meetings:", error);
             meetingSelect.innerHTML = `
-                <option value="">
-                    Unable to load meetings
-                </option>
+                <option value="">Unable to load meetings</option>
             `;
-
         }
-
     }
-
 
     loadMeetings();
 
-
-    /* =================================================
-       UPDATE MEETING DATE
-    ================================================= */
-
-    meetingSelect.addEventListener(
-        "change",
-        () => {
-
-            const selectedOption =
-                meetingSelect
-                    .selectedOptions[0];
-
-
-            if (
-                selectedOption &&
-                selectedOption.dataset.date
-            ) {
-
-                const date =
-                    new Date(
-                        selectedOption.dataset.date
-                    );
-
-
-                meetingDate.value =
-                    date.toISOString()
-                        .split("T")[0];
-
-            } else {
-
-                meetingDate.value = "";
-
-            }
-
-        }
-    );
-
+    meetingSelect.addEventListener("change", () => {
+        const selectedOption = meetingSelect.selectedOptions[0];
+        meetingDate.value = selectedOption && selectedOption.dataset.date
+            ? new Date(selectedOption.dataset.date).toISOString().split("T")[0]
+            : "";
+    });
 }
 
 
@@ -1815,21 +1698,8 @@ if (announcementsList) {
 
         try {
 
-            const token =
-    localStorage.getItem("token");
-
-const response =
-    await fetch(
-        "/api/announcements",
-        {
-            method: "GET",
-
-            headers: {
-                "Authorization":
-                    `Bearer ${token}`
-            }
-        }
-    );
+            const response =
+                await fetch("/api/announcements");
 
             const data =
                 await response.json();
@@ -2050,6 +1920,7 @@ if (meetingForm) {
 
         }
     );
+}
 /*
 =====================================================
    COMMUNITY MEETINGS
@@ -2064,34 +1935,8 @@ if (meetingsList) {
     async function loadMeetings() {
 
         try {
-
-            const token =
-                localStorage.getItem("token");
-
-            if (!token) {
-
-                meetingsList.innerHTML = `
-                    <p>
-                        Please login to view meetings.
-                    </p>
-                `;
-
-                return;
-            }
-
-
             const response =
-                await fetch(
-                    "/api/meetings",
-                    {
-                        method: "GET",
-
-                        headers: {
-                            "Authorization":
-                                "Bearer " + token
-                        }
-                    }
-                );
+                await fetch("/api/meetings");
 
 
             const data =
@@ -2122,54 +1967,44 @@ if (meetingsList) {
 
             meetingsList.innerHTML =
                 data.map(
-                    meeting => `
+                    (meeting, index) => {
+                        const date = meeting.date
+                            ? new Date(meeting.date)
+                            : null;
 
-                        <div
-                            class="payment-item"
-                            style="margin-bottom: 15px;">
+                        const dateLabel = date
+                            ? date.toLocaleDateString(undefined, {
+                                weekday: "long",
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric"
+                            })
+                            : "Date to be announced";
 
-                            <div>
+                        const timeLabel = date
+                            ? date.toLocaleTimeString(undefined, {
+                                hour: "numeric",
+                                minute: "2-digit"
+                            })
+                            : "Time to be announced";
 
-                                <strong>
-                                    ${meeting.title}
-                                </strong>
-
-                                <small>
-                                    Date:
-                                    ${
-                                        meeting.date
-                                            ? new Date(
-                                                meeting.date
-                                              ).toLocaleString()
-                                            : "Date unavailable"
-                                    }
-                                </small>
-
-                                <small>
-                                    Location:
-                                    ${
-                                        meeting.location ||
-                                        "Location unavailable"
-                                    }
-                                </small>
-
-                                ${
-                                    meeting.description
-                                        ? `
-                                            <small>
-                                                ${
-                                                    meeting.description
-                                                }
-                                            </small>
-                                          `
-                                        : ""
-                                }
-
-                            </div>
-
-                        </div>
-
-                    `
+                        return `
+                            <article class="meeting-list-card">
+                                <div class="meeting-list-index">${String(index + 1).padStart(2, "0")}</div>
+                                <div class="meeting-list-content">
+                                    <span class="meeting-status">UPCOMING</span>
+                                    <h3>${meeting.title}</h3>
+                                    <p>${meeting.description || "Join your neighbors for community updates, shared plans, and meaningful local action."}</p>
+                                    <div class="meeting-list-meta">
+                                        <span>📅 ${dateLabel}</span>
+                                        <span>⏰ ${timeLabel}</span>
+                                        <span>📍 ${meeting.location || "Location to be announced"}</span>
+                                    </div>
+                                </div>
+                                <a class="meeting-list-action" href="excuse.html">Request absence <span>→</span></a>
+                            </article>
+                        `;
+                    }
                 ).join("");
 
 
@@ -2194,7 +2029,6 @@ if (meetingsList) {
 
     loadMeetings();
 
-}
 }
 /*
 =====================================================
